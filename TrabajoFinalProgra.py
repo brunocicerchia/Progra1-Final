@@ -212,6 +212,8 @@ def visualizarVentas(ventas):
         input("Presione cualquier tecla para continuar...")
         break
     limpiarConsola()
+    
+# ------------------------------------------     Funcion Articulos     ------------------------------------------
 
 def main():
     print("Caja 01")
