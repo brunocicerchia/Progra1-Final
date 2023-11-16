@@ -1,0 +1,22 @@
+[
+  {
+    "codigo": 0,
+    "nombre": "Hellmans Ketchup 250g",
+    "precio": 2.5
+  },
+  {
+    "codigo": 1,
+    "nombre": "Hellmans Mayonesa 250g",
+    "precio": 1.5
+  },
+  {
+    "codigo": 2,
+    "nombre": "Duraznos en almibar 250g",
+    "precio": 3
+  },
+  {
+    "codigo": 3,
+    "nombre": "Papel Higienico 4 rollos",
+    "precio": 1
+  }
+]
