@@ -2,7 +2,6 @@ import os
 import json
 from datetime import datetime
 from prettytable import PrettyTable
-from datetime import datetime
 
 def limpiarConsola():
     sistema_operativo = os.name
@@ -169,7 +168,7 @@ def cobrar(productos, ventas):
         # se valida que el input ingresado sea un numero
         while True:
             try:
-                productoCobrar = int(input("Ingrese el código del producto: (Para registrar la venta ingrese -1, para eliminar un producto ingrese -3)"))
+                productoCobrar = int(input("Ingrese el código del producto: (Para registrar la venta ingrese -1, para eliminar un producto ingrese -3 y para volver al menu principal ingrese -2)"))
                 break
             except ValueError:
                 limpiarConsola()
@@ -185,6 +184,7 @@ def cobrar(productos, ventas):
                 ventaActual.append(productos[productoCobrar])
                 ventaActualPrecio = ventaActualPrecio + productos[i]['precio']
                 limpiarConsola()
+                print("Productos")
                 # Se muestran todos los productos y le total hasta el momento
                 for i in range(len(ventaActual)):
                     print(ventaActual[i]['nombre'], " $",ventaActual[i]['precio'])
@@ -261,6 +261,7 @@ def visualizarVentas(ventas):
     # Se obtiene la fecha actual para comparar con las ventas
     fecha_actual = datetime.now().date()
     ventasHoy = []
+    totalFacturado = 0
     
     # Se filtraran las ventas del dia de hoy
     for venta in ventas:
@@ -269,6 +270,9 @@ def visualizarVentas(ventas):
         
         if fechaFormat == fecha_actual:
             ventasHoy.append(venta)
+            
+    for i in range(len(ventasHoy)):
+        totalFacturado = totalFacturado + ventasHoy[i]['total']
 
     volver = 0
     while volver != -1:
@@ -285,6 +289,7 @@ def visualizarVentas(ventas):
             tabla.add_row([i, len(venta['productos']), totalFormat, fechaFormat])
         # Se muestra la tabla
         print(tabla)
+        print("Total facturado en el dia: $", totalFacturado)
         input("Presione cualquier tecla para continuar...")
         break
     limpiarConsola()
