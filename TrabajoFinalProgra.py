@@ -237,14 +237,13 @@ def cobrar(productos, ventas):
                     except ValueError:
                         limpiarConsola()
                         print("Por favor, ingrese un número entero válido.")
-                for i, prod in enumerate(productos):
+                        
+                for i, prod in enumerate(ventaActual):
                     # Si se encuentra el producto se elimina de la venta actual y se resta al precio total
                     if prod['codigo'] == productoEliminar:
                         ventaActual.remove(productos[productoEliminar])
-                        ventaActualPrecio = ventaActualPrecio - productos[i]['precio']
+                        ventaActualPrecio = ventaActualPrecio - prod['precio']
                         break
-                    else:
-                        print("Producto no encontrado")
                 
                 limpiarConsola()
                 # Se muestran todos los productos y le total hasta el momento
