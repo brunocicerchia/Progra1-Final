@@ -376,6 +376,34 @@ def editarProducto(productos):
             break
         else:
             print("Producto no encontrado")
+            
+def eliminarProducto(productos):
+    # Se valida que el codigo ingresado sea un numero
+    while True:
+        try:
+            codigo = int(input("Ingrese el codigo del producto a eliminar: "))
+            break
+        except ValueError:
+            limpiarConsola()
+            print("Por favor, ingrese un número entero válido.")
+        
+    # Se valida que el codigo ingresado exista
+    for i, prod in enumerate(productos):
+        if prod['codigo'] == codigo:
+            # Se elimina el producto del array de productos
+            productos.pop(i)
+            # Se guarda el array de productos en el archivo JSON
+            with open('productos.json', 'w') as archivo:
+                json.dump(productos, archivo)
+            # Se muestra el mensaje de exito
+            limpiarConsola()
+            print("Se elimino el producto")
+            print("Articulos:")
+            mostrarProductosTabla(productos)
+            input("Presione cualquier tecla para continuar...")
+            break
+        else:
+            print("Producto no encontrado")
     
 def articulosMenu(productos):
     print("Articulos:")
