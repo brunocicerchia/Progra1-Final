@@ -37,6 +37,66 @@ def crearProductosJson(nombre_archivo):
                         'codigo': 3,
                         'nombre': 'Papel Higienico 4 rollos',
                         'precio': 1
+                    },
+                    {
+                        'codigo': 4,
+                        'nombre': 'Coca Cola 2L',
+                        'precio': 2.5
+                    },
+                    {
+                        'codigo': 5,
+                        'nombre': 'Coca Cola 1.5L',
+                        'precio': 1.5
+                    },
+                    {
+                        'codigo': 6,
+                        'nombre': 'Coca Cola 500ml',
+                        'precio': 0.5
+                    },
+                    {
+                        'codigo': 7,
+                        'nombre': 'Coca Cola 250ml',
+                        'precio': 0.25
+                    },
+                    {
+                        'codigo': 8,
+                        'nombre': 'Coca Cola Zero 2L',
+                        'precio': 2.5
+                    },
+                    {
+                        'codigo': 9,
+                        'nombre': 'Coca Cola Zero 1.5L',
+                        'precio': 1.5
+                    },
+                    {
+                        'codigo': 10,
+                        'nombre': 'Coca Cola Zero 500ml',
+                        'precio': 0.5
+                    },
+                    {
+                        'codigo': 11,
+                        'nombre': 'Coca Cola Zero 250ml',
+                        'precio': 0.25
+                    },
+                    {
+                        'codigo': 12,
+                        'nombre': 'Coca Cola Light 2L',
+                        'precio': 2.5
+                    },
+                    {
+                        'codigo': 13,
+                        'nombre': 'Coca Cola Light 1.5L',
+                        'precio': 1.5
+                    },
+                    {
+                        'codigo': 14,
+                        'nombre': 'Coca Cola Light 500ml',
+                        'precio': 0.5
+                    },
+                    {
+                        'codigo': 15,
+                        'nombre': 'Coca Cola Light 250ml',
+                        'precio': 0.25
                     }
                 ]
             json.dump(db, archivo, indent=2)
@@ -77,9 +137,26 @@ def mostrarMenu():
     print("1. Cobrar")
     print("2. Articulos")
     print("3. Ventas")
-    print("4. Exportar")
-    print("5. Salir")
+    print("4. Salir")
     print("======= TiendaAgil =======")
+    
+def mostrarMenuArticulos():
+    # Se muestra el menu de opciones de los articulos
+    print("========== Editar ==========")
+    print("1. Agregar producto")
+    print("2. Editar producto")
+    print("3. Eliminar producto")
+    print("4. Volver al menu principal")
+    print("======= TiendaAgil =======")
+    
+def mostrarProductosTabla(productos):
+    # Se crea la tabla con los datos de los productos
+    tabla = PrettyTable()
+    tabla.field_names = ["Codigo", "Nombre", "Precio"]
+    for i in range(len(productos)):
+        formatPrecio = "$" + str(productos[i]['precio'])
+        tabla.add_row([productos[i]['codigo'], productos[i]['nombre'], formatPrecio])
+    print(tabla)
     
 # ------------------------------------------     Funcion cobrar articulos     ------------------------------------------
 def cobrar(productos, ventas):
@@ -92,7 +169,7 @@ def cobrar(productos, ventas):
         # se valida que el input ingresado sea un numero
         while True:
             try:
-                productoCobrar = int(input("Ingrese el código del producto: "))
+                productoCobrar = int(input("Ingrese el código del producto: (Para registrar la venta ingrese -1, para eliminar un producto ingrese -3)"))
                 break
             except ValueError:
                 limpiarConsola()
@@ -214,6 +291,129 @@ def visualizarVentas(ventas):
     limpiarConsola()
     
 # ------------------------------------------     Funcion Articulos     ------------------------------------------
+def agregarProducto(productos):
+    # Se valida que el codigo ingresado sea un numero
+    while True:
+        try:
+            codigo = int(input("Ingrese el codigo del producto: "))
+            break
+        except ValueError:
+            limpiarConsola()
+            print("Por favor, ingrese un número entero válido.")
+        
+    # Se valida que el precio ingresado sea un numero
+    while True:
+        try:
+            precio = float(input("Ingrese el precio del producto: "))
+            break
+        except ValueError:
+            limpiarConsola()
+            print("Por favor, ingrese un número entero válido.")
+            
+    nombre = str(input("Ingrese el nombre del producto: "))
+            
+    # Se crea el producto
+    producto = {
+        'codigo': codigo,
+        'nombre': nombre,
+        'precio': precio
+    }
+    # Se agrega el producto al array de productos
+    productos.append(producto)
+    # Se guarda el array de productos en el archivo JSON
+    with open('productos.json', 'w') as archivo:
+        json.dump(productos, archivo)
+    # Se muestra el mensaje de exito
+    print("Se agrego el producto")
+    print("Articulos:")
+    mostrarProductosTabla(productos)
+    input("Presione cualquier tecla para continuar...")
+    
+def editarProducto(productos):
+    # Se valida que el codigo ingresado sea un numero
+    while True:
+        try:
+            codigo = int(input("Ingrese el codigo del producto a editar: "))
+            break
+        except ValueError:
+            limpiarConsola()
+            print("Por favor, ingrese un número entero válido.")
+            
+    # Se valida que el codigo ingresado exista
+    for i, prod in enumerate(productos):
+        print(prod)
+        if prod['codigo'] == codigo:
+            # Se valida que el precio ingresado sea un numero
+            while True:
+                try:
+                    precio = int(input("Ingrese el precio del producto: "))
+                    break
+                except ValueError:
+                    limpiarConsola()
+                    print("Por favor, ingrese un número entero válido.")
+            
+            nombre = str(input("Ingrese el nombre del producto:(Dejar vacio para no editar)"))
+            if nombre == "":
+                nombre = prod['nombre']
+            
+            # Se crea el producto
+            producto = {
+                'codigo': codigo,
+                'nombre': nombre,
+                'precio': precio
+            }
+            # Se agrega el producto al array de productos
+            productos[i] = producto
+            # Se guarda el array de productos en el archivo JSON
+            with open('productos.json', 'w') as archivo:
+                json.dump(productos, archivo)
+            # Se muestra el mensaje de exito
+            limpiarConsola()
+            print("Se edito el producto")
+            print("Articulos:")
+            mostrarProductosTabla(productos)
+            input("Presione cualquier tecla para continuar...")
+            break
+        else:
+            print("Producto no encontrado")
+    
+def articulosMenu(productos):
+    print("Articulos:")
+    mostrarProductosTabla(productos)
+    mostrarMenuArticulos()
+    
+    # Se valida que el input ingresado sea un numero del 1 al 4
+    while True:
+        try:
+            articuloSeleccion = int(input("Ingrese un número entre 1 y 4: "))
+            
+            # Verificar que el número esté en el rango deseado
+            if 1 <= articuloSeleccion <= 4:
+                # El número está en el rango, salir del bucle
+                break
+            else:
+                limpiarConsola()
+                mostrarMenuArticulos()
+                
+        except ValueError:
+            limpiarConsola()
+            print("Por favor, ingrese un número entero válido.")
+            mostrarMenuArticulos()
+            
+    # Se ejecuta la opcion seleccionada
+    if articuloSeleccion == 1:
+        limpiarConsola()
+        agregarProducto(productos)
+    elif articuloSeleccion == 2:
+        limpiarConsola()
+        editarProducto(productos)
+    elif articuloSeleccion == 3:
+        limpiarConsola()
+        eliminarProducto(productos)
+    elif articuloSeleccion == 4:
+        limpiarConsola()
+        print("Volviendo al menu principal...")
+    
 
 def main():
     print("Caja 01")
@@ -229,10 +429,10 @@ def main():
     while True:
         limpiarConsola()
         mostrarMenu()
-        # se valida que el input ingresado sea un numero del 1 al 5
+        # se valida que el input ingresado sea un numero del 1 al 4
         while True:
             try:
-                seleccion = int(input("Seleccione una opción (1-5): "))
+                seleccion = int(input("Seleccione una opción (1-4): "))
                 break
             except ValueError:
                 limpiarConsola()
@@ -244,13 +444,12 @@ def main():
             limpiarConsola()
             cobrar(productosDB, ventasDB)
         elif seleccion == 2:
-            print("Articulos")
+            limpiarConsola()
+            articulosMenu(productosDB)
         elif seleccion == 3:
             limpiarConsola()
             visualizarVentas(ventasDB)
         elif seleccion == 4:
-            print("Exportar")
-        elif seleccion == 5:
             limpiarConsola()
             print("Saliendo del programa...")
             break
